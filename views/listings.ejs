@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All Listings</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Check for user's theme preference in localStorage
+      if (localStorage.getItem("theme") === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
+
+    <style>
+      /* Custom Dark Mode Styles */
+      .dark .bg-gray-100 {
+        background-color: #1a202c;
+      } /* Dark background */
+      .dark .text-gray-800 {
+        color: #e2e8f0;
+      } /* Light text */
+      .dark .text-gray-600 {
+        color: #a0aec0;
+      }
+      .dark .text-gray-500 {
+        color: #cbd5e0;
+      }
+      .dark .bg-white {
+        background-color: #2d3748;
+      } /* Dark card background */
+      .dark .shadow-md {
+        box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-100 transition-colors duration-300">
+    <!-- Toggle Button -->
+    <header
+      id="sticky-header"
+      class="fixed top-0 left-0 w-full bg-white dark:bg-gray-900 shadow-md py-4 px-6 flex items-center justify-between transition-all duration-300 z-50"
+    >
+      <!-- Left: Logo -->
+      <a href="/" class="flex items-center space-x-2">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_B%C3%A9lo.svg/1200px-Airbnb_Logo_B%C3%A9lo.svg.png"
+          alt="Logo"
+          class="h-10 w-auto"
+        />
+      </a>
+
+      <!-- Center: Title -->
+      <div class="absolute left-1/2 transform -translate-x-1/2">
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white text-center">
+          Explore Our Listings
+        </h1>
+      </div>
+
+      <!-- Right: Buttons -->
+      <div class="flex items-center space-x-4">
+        <!-- Add More Button -->
+        <form action="/listing/new" method="get">
+          <button
+            class="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+          >
+            <span>Add More</span>
+            <img
+              src="https://cdn2.iconfinder.com/data/icons/top-search/128/_add_plus_round_action_button_new_more-512.png"
+              alt="Add"
+              class="w-5 h-5"
+            />
+          </button>
+        </form>
+
+        <!-- Theme Toggle Button -->
+        <button
+          id="theme-toggle"
+          class="px-4 py-2 bg-gray-800 text-white rounded-lg shadow-md hover:bg-gray-700 transition duration-300"
+        >
+          🌙 Dark Mode
+        </button>
+      </div>
+    </header>
+
+    <!-- Add some spacing so the content doesn’t hide behind the fixed header -->
+    <div class="pt-20"></div>
+
+    <!-- Page Container -->
+    <div class="container mx-auto px-4 py-8">
+      <!-- Grid Layout for Listings -->
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+      >
+        <% for (element of listings) { %>
+        <a
+          href="/listing/<%= element._id %>"
+          class="block"
+        >
+          <div
+            class="bg-white rounded-lg shadow-md overflow-hidden transform transition duration-300 hover:scale-105"
+          >
+            <img
+              src="<%= element.image.url %>"
+              alt="Listing Image"
+              class="w-full h-48 object-cover"
+            />
+
+            <div class="p-4">
+              <div class="flex items-center justify-between space-x-4">
+                <h2 class="text-lg font-semibold text-gray-800 justify-between">
+                  <%= element.title %>
+                </h2>
+                <span
+                  class="text-sm font-semibold text-yellow-500 dark:text-yellow-400 flex items-center"
+                >
+                  ⭐4.5
+                </span>
+              </div>
+
+              <p class="text-gray-600 text-sm mt-2">
+                <%= element.description %>
+              </p>
+
+              <!-- Small Box for Price & Location -->
+              <div class="mt-4 flex justify-between items-center">
+                <div>
+                  <p class="text-lg font-bold text-blue-500">
+                    &#8377;<%= element.price %>
+                  </p>
+                  <p class="text-gray-500 text-sm">
+                    <%= element.location %>, <%= element.country %>
+                  </p>
+                </div>
+
+                <!-- Edit Button -->
+                <button
+                  class="px-3 py-1 bg-blue-500 text-white text-sm font-semibold rounded-lg shadow hover:bg-blue-600 transition duration-200"
+                >
+                  BnB it
+                </button>
+              </div>
+            </div>
+          </div>
+        </a>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- JavaScript for Theme Toggle -->
+    <script>
+      const themeToggleBtn = document.getElementById("theme-toggle");
+      const htmlElement = document.documentElement;
+
+      // Function to toggle theme
+      themeToggleBtn.addEventListener("click", () => {
+        if (htmlElement.classList.contains("dark")) {
+          htmlElement.classList.remove("dark");
+          localStorage.setItem("theme", "light");
+          themeToggleBtn.textContent = "🌙 Dark Mode";
+        } else {
+          htmlElement.classList.add("dark");
+          localStorage.setItem("theme", "dark");
+          themeToggleBtn.textContent = "☀️ Light Mode";
+        }
+      });
+
+      // Set correct button text on page load
+      if (localStorage.getItem("theme") === "dark") {
+        themeToggleBtn.textContent = "☀️ Light Mode";
+      }
+
+      const header = document.getElementById("sticky-header");
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) {
+          header.classList.add(
+            "shadow-lg",
+            "bg-opacity-90",
+            "backdrop-blur-md"
+          );
+        } else {
+          header.classList.remove(
+            "shadow-lg",
+            "bg-opacity-90",
+            "backdrop-blur-md"
+          );
+        }
+      });
+    </script>
+  </body>
+</html>

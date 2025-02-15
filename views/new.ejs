@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Place</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+      // Apply dark mode if user preference is saved
+      if (localStorage.getItem("theme") === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
+</head>
+
+<body class="bg-gray-100 dark:bg-gray-900 flex items-center justify-center min-h-screen transition-colors duration-300">
+
+    <!-- Form Container -->
+    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 max-w-lg w-full">
+        <h2 class="text-3xl font-bold text-gray-800 dark:text-white text-center mb-6">Enter Details</h2>
+
+        <!-- Form -->
+        <form action="/create" method="post" class="space-y-4">
+            <input type="text" name="title" placeholder="Enter Title" class="input-field" required>
+            <textarea name="description" placeholder="Enter Description.." rows="4" class="input-field" required></textarea>
+            <input type="text" name="url" placeholder="Image URL" class="input-field" required>
+            <input type="number" name="price" placeholder="Enter Price" class="input-field" required>
+            <input type="text" name="location" placeholder="Enter City" class="input-field" required>
+            <input type="text" name="country" placeholder="Enter Country" class="input-field" required>
+
+            <button type="submit" class="w-full py-3 text-lg font-semibold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300">
+                Submit
+            </button>
+        </form>
+    </div>
+
+    <!-- Tailwind Utility Classes -->
+    <style>
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        
+        .input-field:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+        }
+
+        .dark .input-field {
+            background-color: #2d3748;
+            border: 1px solid #4a5568;
+            color: #e2e8f0;
+        }
+
+        .dark .input-field:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 8px rgba(96, 165, 250, 0.5);
+        }
+    </style>
+
+</body>
+</html>

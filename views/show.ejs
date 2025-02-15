@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Listing Details</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+    
+    <!-- Page Container -->
+    <div class="container mx-auto px-4 py-8">
+      
+      <!-- Dark/Light Mode Toggle Button -->
+      <button id="theme-toggle" class="absolute top-4 right-4 p-2 rounded-full bg-gray-700 text-white">
+        🌙 / 🌞
+      </button>
+
+      <!-- Back Button -->
+      <a href="/listing" class="text-blue-600 hover:underline flex items-center">
+        ⬅ Back to Listings
+      </a>
+
+      <!-- Listing Card -->
+      <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-6 dark:bg-gray-800 dark:text-white">
+        
+        <!-- Listing Image -->
+        <img src="<%= item.image.url %>" alt="Listing Image" class="w-full h-64 object-cover">
+        
+        <!-- Listing Info -->
+        <div class="p-6">
+          <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-100"><%= item.title %></h1>
+          <p class="text-gray-600 mt-3 text-lg dark:text-gray-300"><%= item.description %></p>
+
+          <!-- Price & Location -->
+          <div class="mt-4 flex items-center justify-between">
+            <div>
+              <p class="text-xl font-semibold text-indigo-600">&#8377;<%= item.price %></p>
+              <p class="text-gray-500 text-sm dark:text-gray-400"><%= item.location %>, <%= item.country %></p>
+            </div>
+
+            <!-- Edit & Delete Buttons -->
+            <div class="flex space-x-3">
+              <button class="px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded-lg shadow hover:bg-blue-600 transition duration-200">
+                Edit
+              </button>
+              <button class="px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded-lg shadow hover:bg-red-600 transition duration-200">
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <script>
+      // Check if the user has a saved theme preference
+      const currentTheme = localStorage.getItem('theme') || 'light';
+      if (currentTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+
+      // Function to toggle between dark and light themes
+      const themeToggleButton = document.getElementById('theme-toggle');
+      themeToggleButton.addEventListener('click', function () {
+        const isDark = document.documentElement.classList.contains('dark');
+        if (isDark) {
+          document.documentElement.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+        } else {
+          document.documentElement.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+        }
+      });
+    </script>
+
+  </body>
+</html>
