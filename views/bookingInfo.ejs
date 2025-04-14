@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Booking-Info</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top shadow-sm">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_B%C3%A9lo.svg/1200px-Airbnb_Logo_B%C3%A9lo.svg.png"
+            alt="Airbnb Logo"
+            height="40"
+          />
+        </a>
+        <button
+          class="navbar-toggler dark-toggle"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/listing">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/listing/new">Add More</a>
+            </li>
+          </ul>
+
+          <div class="d-flex align-items-center ms-3">
+            <button
+              id="theme-toggle"
+              class="btn btn-dark me-3"
+              title="Toggle Theme"
+            >
+              🌙
+            </button>
+
+            <div class="dropdown">
+              <button
+                class="btn btn-success d-flex align-items-center px-3 py-2 rounded-3 dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <span class="text-white"><%= loggedInUser.name %></span>
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/6522/6522516.png"
+                  alt="User Icon"
+                  class="ms-2"
+                  width="25"
+                />
+              </button>
+
+              <ul
+                class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="profileDropdown"
+              >
+                <li>
+                  <form action="/profile/<%= loggedInUser._id %>" method="get">
+                    <button class="dropdown-item d-flex align-items-center">
+                      Profile
+                    </button>
+                  </form>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <form action="/logout" method="post">
+                    <button
+                      class="dropdown-item d-flex align-items-center text-danger"
+                    >
+                      Log Out
+                    </button>
+                  </form>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-5 pt-5 mb-5">
+      <div class="row">
+        <div class="col-md-7 mt-5">
+          <div class="d-flex align-items-center mb-4">
+            <a href="/listing/<%= item._id %>" class="fw-bold me-3">
+              <i class="bi bi-arrow-left bg-secondary-subtle rounded-3 p-2"></i>
+            </a>
+            <h2 class="mb-0">Confirm & Pay</h2>
+          </div>
+
+          <% const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; const startDateObj = new
+          Date(checkin); const endDateObj = new Date(checkout); const startMonth
+          = monthNames[startDateObj.getMonth()]; const endMonth =
+          monthNames[endDateObj.getMonth()]; const startDate =
+          startDateObj.getDate(); const endDate = endDateObj.getDate(); const
+          oneDay = 1000 * 60 * 60 * 24; const totalDays = Math.round((endDateObj
+          - startDateObj) / oneDay); const totalPrice = item.price * totalDays *
+          guest; const taxes = totalPrice * 0.15; %>
+
+          <h5 class="mb-4" style="line-height: 35px">
+            Date <br /><%= startDate %> <%= startMonth %> - <%= endDate %> <%=
+            endMonth %>
+          </h5>
+          <h5 style="line-height: 35px">
+            Guests <br />
+            <%= guest %> guest
+          </h5>
+
+          <hr class="my-3 mt-5" />
+
+          <h4 class="mt-5">Cancellation Policy</h4>
+          <h5 class="mt-3">
+            <strong
+              >Free cancellation before <%=(startDate-1)%30%>
+              <%=startMonth%>.</strong
+            >
+            Cancel before check-in on <%=startDate%> <%=startMonth%> for a
+            partial refund.
+          </h5>
+
+          <hr class="my-3 mt-5" />
+
+          <h4 class="mt-5">Ground rules</h4>
+          <h5 class="mt-3">
+            We ask every guest to remember a few simple things about what makes
+            a great guest.
+          </h5>
+
+          <ul>
+            <li><h5>Follow the house rules.</h5></li>
+            <li><h5>Treat your Host's home like your own.</h5></li>
+          </ul>
+        </div>
+
+        <div class="col-md-5 mt-4 p-4">
+          <div class="card shadow-lg border-0 rounded-4 p-4">
+            <div
+              class="d-flex flex-column flex-md-row justify-content-around align-items-center mt-4 mb-3 text-center text-md-start"
+            >
+              <img
+                src="<%= item.image.url %>"
+                class="rounded-3 mb-3 mb-md-0"
+                style="width: 100px; height: 100px; object-fit: cover"
+                alt="<%= item.title %>"
+              />
+
+              <div class="ms-md-3">
+                <h3 class="fw-bold mb-1"><%= item.title %></h3>
+                <p class="mb-0"><%= item.country %>, <%= item.location %></p>
+              </div>
+            </div>
+
+            <hr class="my-3" />
+
+            <h4 class="text-success fw-bold mb-2">₹<%= item.price %>/-</h4>
+            <small class="mb-4">per night (before taxes)</small>
+
+            <div class="mt-3">
+              <h4 class="mb-3">Your Total</h4>
+
+              <div class="d-flex justify-content-between mt-3">
+                <h6><%= totalDays %> Nights x ₹<%= item.price %></h6>
+                <h6>₹<%= totalPrice %></h6>
+              </div>
+
+              <div class="d-flex justify-content-between">
+                <p>Total Taxes (15%)</p>
+                <p>₹<%= taxes.toFixed(2) %></p>
+              </div>
+
+              <hr class="my-2" />
+
+              <div class="d-flex justify-content-between fw-bold">
+                <p>Total (<u>INR</u>)</p>
+                <p>₹<%= (totalPrice + taxes).toFixed(2) %></p>
+              </div>
+            </div>
+
+            <p style="font-size: smaller" class="p-3">
+              <input type="checkbox"  required>
+                <small
+                >I agree to the Host's House
+                Rules, Ground rules for guests, Airbnb's Rebooking and Refund
+                Policy and that Airbnb can charge my payment method if I’m
+                responsible for damage.</small
+              >
+            </p>
+
+            <div class="d-grid gap-2 mt-4">
+              <button class="btn btn-danger btn-lg mb-3 rounded-3 shadow">
+                Confirm & Pay
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/logic.js"></script>
+  </body>
+</html>

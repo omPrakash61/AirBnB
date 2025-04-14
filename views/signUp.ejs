@@ -1,101 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #0f172a; /* dark background similar to Tailwind's bg-gray-900 */
+    }
 
-    <script>
-        // Check for user's theme preference in localStorage
-        if (localStorage.getItem("theme") === "dark") {
-            document.documentElement.classList.add("dark");
-        }
-    </script>
+    .signup-card {
+      background-color: #1f2937; /* Tailwind's gray-800 */
+      color: white;
+    }
 
-    <style>
-      /* Custom Dark Mode Styles */
-      .dark .bg-gray-100 { background-color: #1a202c; }
-      .dark .text-gray-800 { color: #e2e8f0; }
-      .dark .text-gray-600 { color: #a0aec0; }
-      .dark .bg-white { background-color: #2d3748; }
-      .dark .shadow-md { box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1); }
-      .dark input { background-color: #4a5568; color: #e2e8f0; }
-    </style>
+    .form-control:focus:invalid {
+      box-shadow: 0 0 0 0.25rem rgba(98, 228, 122, 0.597);
+    }
+
+    .form-check-label {
+      color: #d1d5db;
+    }
+  </style>
 </head>
 
-<body class="bg-gray-100 flex justify-center items-center h-screen">
-    
-    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md max-w-md w-full">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white text-center mb-4">Sign Up</h2>
+<body class="d-flex justify-content-center align-items-center vh-100">
 
-        <form action="/checkSignUp" method="post" class="space-y-4">
-            
-            <input name="email" placeholder="Enter Your Email Address" type="email" required 
-                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+  <div class="signup-card p-4 rounded-4 shadow-lg w-100" style="max-width: 500px;">
+    <h2 class="text-center text-success mb-4">Sign Up</h2>
 
-            <input name="name" placeholder="Enter Your Name" type="text" required 
-                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+    <form action="/checkSignUp" method="post" class="needs-validation" novalidate>
+      
+      <!-- Email -->
+      <div class="mb-3">
+        <input
+          type="email"
+          name="email"
+          class="form-control"
+          placeholder="Enter Your Email Address"
+          required
+        />
+        <div class="invalid-feedback">
+          Please enter a valid email.
+        </div>
+      </div>
 
-            <input name="password" placeholder="Password" type="password" required 
-                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+      <!-- Name -->
+      <div class="mb-3">
+        <input
+          type="text"
+          name="name"
+          class="form-control"
+          placeholder="Enter Your Name"
+          required
+        />
+        <div class="invalid-feedback">
+          Name is required.
+        </div>
+      </div>
 
-            <input name="country" type="text" placeholder="Country" required 
-                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+      <!-- Password -->
+      <div class="mb-3">
+        <input
+          type="password"
+          name="password"
+          class="form-control"
+          placeholder="Password"
+          required
+        />
+        <div class="invalid-feedback">
+          Password is required.
+        </div>
+      </div>
 
-            <input name="contact" type="number" placeholder="Contact Number" required 
-                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+      <!-- Country -->
+      <div class="mb-3">
+        <input
+          type="text"
+          name="country"
+          class="form-control"
+          placeholder="Country"
+          required
+        />
+        <div class="invalid-feedback">
+          Country is required.
+        </div>
+      </div>
 
-            <!-- Gender Selection -->
-            <div class="flex items-center space-x-4">
-                <label class="flex items-center text-gray-700 dark:text-gray-300">
-                    <input type="radio" id="Male" name="gender" value="Male" required class="mr-2">
-                    Male
-                </label>
-                <label class="flex items-center text-gray-700 dark:text-gray-300">
-                    <input type="radio" id="Female" name="gender" value="Female" class="mr-2">
-                    Female
-                </label>
-            </div>
+      <!-- Contact Number -->
+      <div class="mb-3">
+        <input
+          type="number"
+          name="contact"
+          class="form-control"
+          placeholder="Contact Number"
+          required
+        />
+        <div class="invalid-feedback">
+          Contact number is required.
+        </div>
+      </div>
 
-            <!-- Submit Button -->
-            <button type="submit" class="w-full py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
-                Submit
-            </button>
-        </form>
+      <!-- Gender -->
+      <div class="mb-3">
+        <label class="form-label d-block">Gender</label>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="gender" id="Male" value="Male" required />
+          <label class="form-check-label" for="Male">Male</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="gender" id="Female" value="Female" required />
+          <label class="form-check-label" for="Female">Female</label>
+        </div>
+      </div>
 
-        <!-- Login Link -->
-        <p class="text-gray-600 dark:text-gray-300 text-center mt-4">
-            Have an account? 
-            <a href="/login" class="text-blue-500 hover:underline">Login</a>
-        </p>
-    </div>
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-success w-100">Submit</button>
+    </form>
 
-    <!-- JavaScript for Theme Toggle -->
-    <script>
-        const themeToggleBtn = document.createElement("button");
-        themeToggleBtn.innerHTML = "🌙 Dark Mode";
-        themeToggleBtn.className = "fixed top-4 right-4 px-4 py-2 bg-gray-800 text-white rounded-lg shadow-md hover:bg-gray-700 transition duration-300";
-        document.body.appendChild(themeToggleBtn);
-        
-        themeToggleBtn.addEventListener("click", () => {
-            if (document.documentElement.classList.contains("dark")) {
-                document.documentElement.classList.remove("dark");
-                localStorage.setItem("theme", "light");
-                themeToggleBtn.textContent = "🌙 Dark Mode";
-            } else {
-                document.documentElement.classList.add("dark");
-                localStorage.setItem("theme", "dark");
-                themeToggleBtn.textContent = "☀️ Light Mode";
-            }
-        });
+    <!-- Login Link -->
+    <p class="text-center text-light mt-4">
+      Have an account?
+      <a href="/login" class="text-decoration-none text-success">Login</a>
+    </p>
+  </div>
 
-        if (localStorage.getItem("theme") === "dark") {
-            themeToggleBtn.textContent = "☀️ Light Mode";
-        }
-    </script>
-
+  <!-- Bootstrap JS + validation -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    (() => {
+      "use strict";
+      const forms = document.querySelectorAll(".needs-validation");
+      Array.from(forms).forEach((form) => {
+        form.addEventListener("submit", (event) => {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add("was-validated");
+        }, false);
+      });
+    })();
+  </script>
 </body>
 </html>

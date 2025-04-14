@@ -1,24 +1,25 @@
-const ListingData = require("./data.js");
+const { sampleListings } = require("./data.js");
 const mongoose = require("mongoose");
-const MONGO_URL = "mongodb://127.0.0.1:27017/AirBnB";
-const Listing = require("../model/listing.js");
+const MONGO_URL = "mongodb://127.0.0.1:27017/AirBnB2";
+const { listing } = require("../model/allUsers.js");
 
-initDB().then(()=>{
-    console.log("DB connected succesfull!");
-}).catch((err)=>{
-    console.log("Something went wrong : ",err)
-})
-
-async function initDB(){
+async function initDB() {
+  try {
     await mongoose.connect(MONGO_URL);
+    console.log("DB connected successfully!");
+
+    await listing.deleteMany({});
+    console.log("Old data deleted!");
+
+    await listing.insertMany(sampleListings);
+    console.log("All data inserted successfully!");
+  } catch (err) {
+    console.log("Error during DB operation:", err);
+  } finally {
+    mongoose.disconnect();
+  }
 }
 
-const fillData = async ()=>{
-    await Listing.insertMany(ListingData.data);
-}
 
-fillData().then(()=>{
-    console.log("all Data inserted succesfull!");
-}).catch((err)=>{
-    console.log("Error Occur During insertion of data!",err);
-});
+
+initDB();

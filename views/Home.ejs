@@ -1,76 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AirBnB</title>
-
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+  </head>
 
-    <script>
-        // Check for user's theme preference in localStorage
-        if (localStorage.getItem("theme") === "dark") {
-            document.documentElement.classList.add("dark");
-        }
-    </script>
+  <body class=" dark bg-gray-900 flex justify-center items-center min-h-screen">
 
-    <style>
-      /* Custom Dark Mode Styles */
-      .dark .bg-gray-100 { background-color: #1a202c; }
-      .dark .text-gray-900 { color: #e2e8f0; }
-      .dark .text-gray-700 { color: #a0aec0; }
-      .dark .bg-white { background-color: #2d3748; }
-      .dark .shadow-md { box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1); }
-    </style>
-</head>
+    <div
+      class=" dark:bg-gray-800 p-8 rounded-lg shadow-md max-w-lg text-center z-10"
+    >
+      <h2 class="text-3xl font-bold text-gray-900 dark:text-white">
+        Welcome to AirBnB
+      </h2>
+      <h3 class="text-lg text-gray-700 dark:text-gray-300 mt-2">
+        Explore our listings, book your next favorite place, and enjoy a
+        wonderful journey!
+      </h3>
 
-<body class="bg-gray-100 flex justify-center items-center h-screen">
-    
-    <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md max-w-lg text-center">
-        <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Welcome to AirBnB</h2>
-        <h3 class="text-lg text-gray-700 dark:text-gray-300 mt-2">
-            Explore our listings, book your next favorite place, and enjoy a wonderful journey!
-        </h3>
+      <div class="mt-6 flex flex-col space-y-4">
+        <form action="/login" method="get">
+          <button
+            class="w-full py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+          >
+            Login
+          </button>
+        </form>
 
-        <div class="mt-6 flex flex-col space-y-4">
-            <form action="/login" method="get">
-                <button class="w-full py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
-                    Login
-                </button>
-            </form>
+        <form action="/signUp" method="get">
+          <button
+            class="w-full py-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition duration-300"
+          >
+            Sign Up
+          </button>
+        </form>
 
-            <form action="/signUp" method="get">
-                <button class="w-full py-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition duration-300">
-                    Sign Up
-                </button>
-            </form>
-        </div>
+        <p class="text-gray-600 dark:text-gray-300 text-center mt-4">
+          Explore as Guest?
+          <a href="/listing" class="text-blue-500 ">Let's Go</a>
+      </p>
+      </div>
     </div>
-
-    <!-- JavaScript for Theme Toggle -->
-    <script>
-        const themeToggleBtn = document.createElement("button");
-        themeToggleBtn.innerHTML = "🌙 Dark Mode";
-        themeToggleBtn.className = "fixed top-4 right-4 px-4 py-2 bg-gray-800 text-white rounded-lg shadow-md hover:bg-gray-700 transition duration-300";
-        document.body.appendChild(themeToggleBtn);
-        
-        themeToggleBtn.addEventListener("click", () => {
-            if (document.documentElement.classList.contains("dark")) {
-                document.documentElement.classList.remove("dark");
-                localStorage.setItem("theme", "light");
-                themeToggleBtn.textContent = "🌙 Dark Mode";
-            } else {
-                document.documentElement.classList.add("dark");
-                localStorage.setItem("theme", "dark");
-                themeToggleBtn.textContent = "☀️ Light Mode";
-            }
-        });
-
-        if (localStorage.getItem("theme") === "dark") {
-            themeToggleBtn.textContent = "☀️ Light Mode";
-        }
-    </script>
-
-</body>
+  </body>
 </html>
