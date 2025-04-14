@@ -1,19 +1,19 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+require("dotenv").config();
 const mongoose = require("mongoose");
-const MONGO_URL = "mongodb://127.0.0.1:27017/AirBnB2";
-const {  user } = require("./model/allUsers.js");
+const MONGO_URL = process.env.MONGODB_URL;
+const { user } = require("./model/allUsers.js");
 const { listing } = require("./model/allUsers.js");
 const Listing = listing;
 const session = require("express-session");
 const port = process.env.PORT || 3000;
 
-
+const initDB = require("./init/index.js");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
-
 
 app.use(express.static(path.join(__dirname, "/public/css")));
 app.use(express.static(path.join(__dirname, "/public/js")));
@@ -22,11 +22,10 @@ app.use(
   session({
     resave: false,
     saveUninitialized: false,
-    secret: "AirBnB",
+    secret: process.env.SESSION_SECRET,
   })
 );
 
-// Middleware to ensure the authentication for each incoming request.
 const isAuthenticated = (req, res, next) => {
   if (req.session.loggedIn) next();
   else
@@ -37,8 +36,9 @@ const isAuthenticated = (req, res, next) => {
 };
 
 main()
-  .then(() => {
+  .then(async () => {
     console.log("mongodb connected succesfull");
+    await initDB();
   })
   .catch((err) => {
     console.log("database connection unsuccesfull! some error occur:", err);
@@ -223,7 +223,7 @@ app.get("/search", async (req, res) => {
   });
 });
 
-app.post("/listing/booking/:id", isAuthenticated , async (req, res) => {
+app.post("/listing/booking/:id", isAuthenticated, async (req, res) => {
   const itemId = req.params.id;
   const loggedInUser = await user.findOne({
     _id: req.session.userId,
@@ -231,11 +231,11 @@ app.post("/listing/booking/:id", isAuthenticated , async (req, res) => {
   const item = await Listing.findById(itemId);
 
   res.render("bookingInfo", {
-    price : req.body.price,
-    country :req.body.country,
-    location :req.body.location,
-    checkin :req.body.checkin.toString(),
-    checkout:  req.body.checkout.toString(),
+    price: req.body.price,
+    country: req.body.country,
+    location: req.body.location,
+    checkin: req.body.checkin.toString(),
+    checkout: req.body.checkout.toString(),
     guest: req.body.guest,
     item,
     loggedInUser: loggedInUser,
@@ -257,7 +257,7 @@ app.post("/create", isAuthenticated, async (req, res) => {
       price: req.body.price,
       location: req.body.location,
       country: req.body.country,
-      host: loggedInUser.name
+      host: loggedInUser.name,
     });
     await newListing.save();
     console.log("New Listing Added SuccessFull!");
@@ -283,8 +283,6 @@ app.post("/logout", (req, res) => {
   res.redirect("/listing");
 });
 
-
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-
